@@ -1,0 +1,13 @@
+# Python
+training/.venv/
+training/__pycache__/
+
+# Rust
+serving/target/
+
+# Large Files
+data/
+models/
+
+# IDE
+.zed/
