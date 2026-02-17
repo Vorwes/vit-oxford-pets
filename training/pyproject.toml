@@ -8,6 +8,7 @@ dependencies = [
     "accelerate>=1.12.0",
     "datasets>=4.5.0",
     "evaluate>=0.4.6",
+    "ipywidgets>=8.1.8",
     "safetensors>=0.7.0",
     "scikit-learn>=1.8.0",
     "torch>=2.6.0",
