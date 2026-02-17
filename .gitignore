@@ -1,6 +1,6 @@
 # Python
 training/.venv/
-training/__pycache__/
+__pycache__/
 training/notebooks/.ipynb_checkpoints/
 
 # Rust
