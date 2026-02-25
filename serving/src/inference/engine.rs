@@ -28,3 +28,10 @@ fn load_model(model_path: &str) -> Result<VisionTransformer> {
     let model = VisionTransformer::new(&config, 37, vb)?;
     Ok(model)
 }
+
+fn load_labels(model_path: &str) -> Result<ModelConfig> {
+    let config_path = fs::read_to_string(format!("{}/config.json", &model_path))?;
+
+    let label_config: ModelConfig = serde_json::from_str(&config_path)?;
+    Ok(label_config)
+}
