@@ -55,6 +55,6 @@ impl ImageClassifier {
         let logits = self.model.forward(&img)?;
 
         let max_index = logits.squeeze(0)?.argmax(0)?.to_scalar::<u32>()?;
-        Ok(self.get_label(max_index)?)
+        self.get_label(max_index)
     }
 }
