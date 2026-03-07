@@ -31,3 +31,9 @@ fn img_to_vec(
         .reshape((3, 224, 224))?
         .unsqueeze(0)?)
 }
+
+pub fn preprocess_image(img: &[u8], device: &candle_core::Device) -> Result<Tensor> {
+    let img = load_image(img)?;
+    let img = img_resize(&img);
+    img_to_vec(&img, device)
+}
