@@ -1,3 +1,4 @@
+use candle_core::Device;
 use serde::Serialize;
 use std::sync::Arc;
 
@@ -11,4 +12,5 @@ pub struct Prediction {
 #[derive(Debug, Clone)]
 pub struct AppState {
     pub model: Arc<ImageClassifier>,
+    pub device: Device,
 }
