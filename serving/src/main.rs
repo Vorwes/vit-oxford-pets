@@ -12,10 +12,11 @@ use api::routes::predict_image;
 
 #[tokio::main]
 async fn main() {
-    let model_path = "../models/vit-pets-final";
+    let model_path =
+        std::env::var("MODEL_PATH").unwrap_or_else(|_| "../models/vit-pets-final".to_string());
     let device = Device::Cpu;
 
-    let model = Arc::new(ImageClassifier::new(model_path).expect("Failed to load model"));
+    let model = Arc::new(ImageClassifier::new(model_path.as_str()).expect("Failed to load model"));
     let app_state = AppState { model, device };
 
     let app = Router::new()
