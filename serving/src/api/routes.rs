@@ -80,4 +80,26 @@ mod tests {
 
         assert_eq!(response.status(), StatusCode::OK);
     }
+
+    #[tokio::test]
+    async fn predict_image_empty_body() {
+        let model_path =
+            std::env::var("MODEL_PATH").unwrap_or_else(|_| "../models/vit-pets-final".to_string());
+        let device = Device::Cpu;
+
+        let model =
+            Arc::new(ImageClassifier::new(model_path.as_str()).expect("Failed to load model"));
+        let app_state = AppState { model, device };
+
+        let app = create_router(app_state);
+        let request = Request::builder()
+            .uri("/predict")
+            .method("POST")
+            .body(Body::empty())
+            .unwrap();
+
+        let response = app.oneshot(request).await.unwrap();
+
+        assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+    }
 }
