@@ -48,3 +48,36 @@ pub fn create_router(app_state: AppState) -> Router {
         .route("/health", get(health))
         .with_state(app_state)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::inference::engine::ImageClassifier;
+    use axum::body::Body;
+    use axum::http::{Request, StatusCode};
+    use candle_core::Device;
+    use std::sync::Arc;
+    use tower::util::ServiceExt;
+
+    #[tokio::test]
+    async fn health_check_works() {
+        let model_path =
+            std::env::var("MODEL_PATH").unwrap_or_else(|_| "../models/vit-pets-final".to_string());
+        let device = Device::Cpu;
+
+        let model =
+            Arc::new(ImageClassifier::new(model_path.as_str()).expect("Failed to load model"));
+        let app_state = AppState { model, device };
+
+        let app = create_router(app_state);
+        let request = Request::builder()
+            .uri("/health")
+            .method("GET")
+            .body(Body::empty())
+            .unwrap();
+
+        let response = app.oneshot(request).await.unwrap();
+
+        assert_eq!(response.status(), StatusCode::OK);
+    }
+}
