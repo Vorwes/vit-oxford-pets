@@ -1,9 +1,12 @@
 use crate::api::models::{AppState, Prediction};
 use crate::inference::preprocessing::preprocess_image;
-use axum::Json;
 use axum::body::Bytes;
 use axum::extract::{Multipart, State};
 use axum::http::StatusCode;
+use axum::{
+    Json, Router,
+    routing::{get, post},
+};
 
 async fn extract_image(mut multipart: Multipart) -> Result<Bytes, StatusCode> {
     while let Some(field) = multipart
@@ -30,4 +33,18 @@ pub async fn predict_image(
         .predict(preprocessed_image)
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
     Ok(Json(Prediction { label: prediction }))
+}
+
+async fn health() -> (StatusCode, &'static str) {
+    let status = StatusCode::OK;
+    let reason = status.canonical_reason().unwrap_or("");
+
+    (status, reason)
+}
+
+pub fn create_router(app_state: AppState) -> Router {
+    Router::new()
+        .route("/predict", post(predict_image))
+        .route("/health", get(health))
+        .with_state(app_state)
 }
