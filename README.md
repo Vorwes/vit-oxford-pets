@@ -34,6 +34,8 @@ Expected Result:
 {"label": "breed_name"}
 ```
 
+## Huggingface
+The model is also available on [Huggingface](https://huggingface.co/Vorwes/vit-pet-classifier).
 ----
 ## **Specific Details**
 For more details on the project, check out the README.md files in the `/training` and `/serving` directories.
