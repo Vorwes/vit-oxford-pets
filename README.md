@@ -2,6 +2,7 @@
 title: ViT Oxford Pets
 emoji: 🐕
 sdk: docker
+app_port: 3000
 ---
 # **Vision Transformer (ViT) Pet Classifier**
 
