@@ -1,3 +1,8 @@
+---
+title: ViT Oxford Pets
+emoji: 🐕
+sdk: docker
+---
 # **Vision Transformer (ViT) Pet Classifier**
 
 This is an end-to-end Machine Learning project where I fine-tuned a vision transformer (google's vit-base-patch16-224-in21k) on the Oxford-IIIT Pet dataset using Python, and then served this fine-tuned model via a highly optimized asynchronous Rust backend.
