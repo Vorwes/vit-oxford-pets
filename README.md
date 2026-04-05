@@ -37,6 +37,11 @@ Expected Result:
 ## **Huggingface**
 The model is also available on [Huggingface](https://huggingface.co/Vorwes/vit-pet-classifier).
 
+The model can also be used through a live Huggingface space:
+```bash
+curl -X POST https://vorwes-vit-oxford-pets.hf.space/predict -F "image=@test_image.jpg"
+```
+
 ----
 ## **Specific Details**
 For more details on the project, check out the README.md files in the `/training` and `/serving` directories.
