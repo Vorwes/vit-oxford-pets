@@ -133,4 +133,30 @@ mod tests {
             "label": "yorkshire_terrier",
         }));
     }
+
+    #[tokio::test]
+    async fn predict_image_invalid_file() {
+        let model_path =
+            std::env::var("MODEL_PATH").unwrap_or_else(|_| "../models/vit-pets-final".to_string());
+        let device = Device::Cpu;
+
+        let model =
+            Arc::new(ImageClassifier::new(model_path.as_str()).expect("Failed to load model"));
+        let app_state = AppState { model, device };
+
+        let app = create_router(app_state);
+
+        let server = TestServer::new(app);
+        let invalid_data = b"not an image";
+
+        let part = Part::bytes(invalid_data.as_slice())
+            .file_name("invalid.txt")
+            .mime_type("text/plain");
+
+        let form = MultipartForm::new().add_part("image", part);
+
+        let response = server.post("/predict").multipart(form).await;
+
+        response.assert_status_internal_server_error();
+    }
 }
