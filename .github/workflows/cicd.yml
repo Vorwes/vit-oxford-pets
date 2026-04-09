@@ -17,6 +17,14 @@ jobs:
             - name: Install Rust toolchain
               uses: dtolnay/rust-toolchain@stable
 
+            - name: Download Model from Huggingface
+              run: |
+                  mkdir -p ./models/vit-pets-final
+                  cd ./models/vit-pets-final
+                  curl -L -O https://huggingface.co/Vorwes/vit-pet-classifier/resolve/main/model.safetensors
+                  curl -L -O https://huggingface.co/Vorwes/vit-pet-classifier/resolve/main/preprocessor_config.json
+                  curl -L -O https://huggingface.co/Vorwes/vit-pet-classifier/resolve/main/config.json
+
             - name: Run cargo test
               working-directory: ./serving
               run: cargo test
@@ -28,6 +36,14 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v6
+
+            - name: Download Model from Huggingface
+              run: |
+                  mkdir -p ./models/vit-pets-final
+                  cd ./models/vit-pets-final
+                  curl -L -O https://huggingface.co/Vorwes/vit-pet-classifier/resolve/main/model.safetensors
+                  curl -L -O https://huggingface.co/Vorwes/vit-pet-classifier/resolve/main/preprocessor_config.json
+                  curl -L -O https://huggingface.co/Vorwes/vit-pet-classifier/resolve/main/config.json
 
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v4
